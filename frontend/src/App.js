@@ -3,6 +3,7 @@ import "./index.css";
 import { Routes, Route, Router } from "react-router-dom";
 import NavBar from "./components/extras/NavBar.jsx";
 import CreateRawProduct from "./components/raw_products/CreateRawProduct"
+import ProcessingPage from "./components/processing/CreateBatch";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
           <div className="w-full space-y-10">
             <Routes>
               <Route path="rawproducts/create" element={<CreateRawProduct/>}/>
+              <Route path="processing/createbatch" element={<ProcessingPage/>}/>
             </Routes>
               
               
