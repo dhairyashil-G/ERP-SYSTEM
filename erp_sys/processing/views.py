@@ -1,11 +1,18 @@
+from datetime import datetime
 from django.shortcuts import render
+from django.views import View
+import requests
 from rest_framework import viewsets
 from rest_framework import generics,status
 from rest_framework.response import Response
 from .serializer import ProductsSerializer
 from .models import Products
 from rest_framework.views import APIView
-# from fpdf import FPDF
+
+from fpdf import FPDF
+import json
+from io import BytesIO
+
 from reportlab.lib.pagesizes import letter
 from reportlab.lib import colors
 from reportlab.lib.styles import getSampleStyleSheet
@@ -27,49 +34,10 @@ class ProductDeleteView(generics.DestroyAPIView):
     serializer_class = ProductsSerializer
 
 class CreateBatchSheetView(APIView):
-    # def post(self, request):
-    #     product_name = request.data.get('product_name')
-    #     quantity = request.data.get('quantity')
-
-    #     try:
-    #         product = Products.objects.get(name=product_name)
-    #     except Products.DoesNotExist:
-    #         return Response({"error": "Product not found"}, status=status.HTTP_404_NOT_FOUND)
-    #     weights = [float(weight.replace('[', '').replace(']', '')) * quantity for weight in product.weights.split(',')]
-    #     batch_sheet = {
-    #         "product_name": product.name,
-    #         "quantity": quantity,
-    #         "raw_materials": product.raw_materials.split(','),
-    #         "weights": weights,
-    #         "sequences": product.sequences.split(',')
-    #     }
-
-    #     response = HttpResponse(content_type='application/pdf')
-    #     response['Content-Disposition'] = 'attachment; filename="batch_sheet.pdf"'
-
-    #     # Create the PDF canvas
-    #     p = canvas.Canvas(response, pagesize=letter)
-
-    #     # Set the content of the batch sheet
-    #     p.setFont("Helvetica", 12)
-    #     p.drawString(100, 700, "Product Name: " + product.name)
-    #     p.drawString(100, 680, "Quantity: " + str(quantity))
-    #     p.drawString(100, 660, "Raw Materials: " + ', '.join(batch_sheet.raw_materials))
-    #     p.drawString(100, 640, "Weights: " + ', '.join(str(weight) for weight in batch_sheet.weights))
-    #     p.drawString(100, 620, "Sequences: " + ', '.join(batch_sheet.sequences))
-
-    #     # Save the PDF
-    #     p.showPage()
-    #     p.save()
-
-    #     return response
-    #     # return Response(batch_sheet, status=status.HTTP_200_OK)
-
-
     def post(self, request):
         product_name = request.data.get('product_name')
         quantity = request.data.get('quantity')
-
+        pdf=request.data.get('pdf')
         try:
             product = Products.objects.get(name=product_name)
         except Products.DoesNotExist:
@@ -80,46 +48,59 @@ class CreateBatchSheetView(APIView):
         raw_materials = product.raw_materials.split(',')
         sequences = product.sequences.split(',')
 
-        # Create the response as a PDF
-        response = HttpResponse(content_type='application/pdf')
-        response['Content-Disposition'] = 'attachment; filename="batch_sheet.pdf"'
+        # Create the response data
+        batch_sheet_data = {
+            "product_name": product.name,
+            "quantity": quantity,
+            "raw_materials": raw_materials,
+            "weights": weights,
+            "sequences": sequences
+        }
 
-        # Create the PDF document
-        doc = SimpleDocTemplate(response, pagesize=letter)
-        elements = []
+        if(pdf):
+            pdf = FPDF()
+            pdf.add_page()
 
-        # Define the table data
-        data = [
-            ["Product Name:", product.name],
-            ["Quantity:", str(quantity)],
-            ["Raw Materials:", ', '.join(raw_materials)],
-            ["Weights:", ', '.join(str(weight) for weight in weights)],
-            ["Sequences:", ', '.join(sequences)]
-        ]
+            # pdf.set_font('Arial', 'B', 10)
+            # pdf.image('methods/images/logo.jpg', x=10, y=10, w=25, h=30)
+            # pdf.image('methods/images/aquaprobe_logo.png',
+            #         x=pdf.w-60, y=10, w=50, h=25)
+            # pdf.cell(0, 30, '', ln=1)
 
-        # Define table styles
-        styles = getSampleStyleSheet()
-        table_style = TableStyle([
-            ('BACKGROUND', (0, 0), (-1, 0), colors.lightgrey),
-            ('TEXTCOLOR', (0, 0), (-1, 0), colors.black),
-            ('ALIGN', (0, 0), (-1, 0), 'CENTER'),
-            ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
-            ('FONTSIZE', (0, 0), (-1, 0), 12),
-            ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
-            ('BACKGROUND', (0, 1), (-1, -1), colors.beige),
-            ('GRID', (0, 0), (-1, -1), 1, colors.black),
-        ])
+            pdf.set_font('Arial', 'B', 13)
+            pdf.cell(0, 10, 'Batchsheet', ln=1)
+            pdf.ln(5)
+            pdf.set_font('Arial', 'B', 12)
+            pdf.cell(0, 10, f'Product Name : {product_name}', ln=1)
+            pdf.cell(0, 10, f'Quantity : {quantity}', ln=1)
+            # Create a table for weights, raw materials, and sequences
+            pdf.set_font('Arial', 'B', 10)
+            pdf.cell(40, 10, 'Raw Materials', 1)
+            pdf.cell(40, 10, 'Weights', 1)
+            pdf.cell(40, 10, 'Sequences', 1)
+            pdf.ln()
 
-        # Create the table
-        table = Table(data)
-        table.setStyle(table_style)
+            pdf.set_font('Arial', '', 10)
+            for weight, raw_material, sequence in zip(weights, raw_materials, sequences):
+                pdf.cell(40, 10, raw_material, 1)
+                pdf.cell(40, 10, str(weight), 1)
+                pdf.cell(40, 10, sequence, 1)
+                pdf.ln()
 
-        # Add the table to the document
-        elements.append(table)
+            pdf_bytes = pdf.output(dest='S').encode('latin-1')
+            pdf_buffer = BytesIO(pdf_bytes)
+            filename = "Batchsheet" + \
+                datetime.now().strftime("%d-%m-%Y,%H:%M:%S")+".pdf"
 
-        # Build the PDF document
-        doc.build(elements)
+            response = HttpResponse(content_type='application/pdf')
+            response['Content-Disposition'] = 'attachment; filename="{}"'.format(
+                filename)
 
-        return response
+            pdf_data = pdf_buffer.getvalue()
+            response.write(pdf_data)
 
+            return response
+            
 
+        # Return the data as a JSON response
+        return Response(batch_sheet_data)
