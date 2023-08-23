@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-const ProcessingPage = () => {
+const CreateNewBatch = () => {
   const [productName, setProductName] = useState('');
   const [quantity, setQuantity] = useState('');
   const [batchSheetData, setBatchSheetData] = useState(null);
@@ -98,4 +98,4 @@ const ProcessingPage = () => {
   );
 };
 
-export default ProcessingPage;
+export default CreateNewBatch;

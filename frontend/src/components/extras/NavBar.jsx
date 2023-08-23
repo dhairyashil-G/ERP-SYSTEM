@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 const Navbar = () => {
   return (
     <nav className="bg-gray-800">
@@ -12,30 +13,38 @@ const Navbar = () => {
           {/* Menu */}
           <div className="hidden md:block">
             <div className="ml-10 flex items-baseline space-x-4">
-            <a
-                href="#"
-                className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-              >
-                Home
-              </a>
-              <a
-                href="#"
-                className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-              >
-                Raw Products
-              </a>
-              <a
-                href="#"
-                className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-              >
-                Batch Processing
-              </a>
-              <a
-                href="#"
-                className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-              >
-                About Us
-              </a>
+              <Link to="/home">
+                <a
+                  href="#"
+                  className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                  >
+                  Home
+                </a>
+              </Link>
+              <Link to="/rawproducts">
+                <a
+                  href="#"
+                  className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                  >
+                  Raw Products
+                </a>
+              </Link>
+              <Link to="/processing">
+                <a
+                  href="#"
+                  className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                  >
+                  Batch Processing
+                </a>
+              </Link>
+              <Link to="/about">
+                <a
+                  href="#"
+                  className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                  >
+                  About Us
+                </a>
+              </Link>
               {/* Add more menu items as needed */}
             </div>
           </div>

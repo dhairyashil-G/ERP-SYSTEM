@@ -1,3 +1,4 @@
+import Heading from '../extras/Heading';
 import React, { useState } from 'react';
 import axios from 'axios';
 
@@ -77,6 +78,8 @@ const AddProductForm = () => {
   };
 
   return (
+    <>
+    <Heading heading='Create Raw Product'/>
     <div className="bg-gray-200 p-12 w-6/12 mx-auto">
       <h1 className="text-2xl font-bold text-center mb-6">Add New Raw Product</h1>
       <form onSubmit={handleSubmit}>
@@ -202,6 +205,7 @@ const AddProductForm = () => {
         </div>
       </form>
     </div>
+  </>
   );
 };
 
