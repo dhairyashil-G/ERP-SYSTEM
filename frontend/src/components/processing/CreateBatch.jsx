@@ -54,7 +54,7 @@ const CreateNewBatch = () => {
           name="productName"
           value={productName}
           onChange={handleInputChange}
-          className="w-full border rounded py-2 px-3 mt-1 focus:outline-none focus:shadow-outline"
+          className="w-3/12 border rounded py-2 px-3 mt-1 focus:outline-none focus:shadow-outline"
         />
       </div>
       <div className="mb-4">
@@ -64,7 +64,7 @@ const CreateNewBatch = () => {
           name="quantity"
           value={quantity}
           onChange={handleInputChange}
-          className="w-full border rounded py-2 px-3 mt-1 focus:outline-none focus:shadow-outline"
+          className="w-3/12 border rounded py-2 px-3 mt-1 focus:outline-none focus:shadow-outline"
         />
       </div>
       <button
