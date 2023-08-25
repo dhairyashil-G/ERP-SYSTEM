@@ -6,9 +6,12 @@ import NavBar from "./components/extras/NavBar.jsx";
 import RawProductPage from "./pages/RawProductsPage";
 import ProcessingPage from "./pages/ProcessingPage";
 
+import CreateProduct from "./components/processing/CreateProduct";
 import CreateNewBatch from "./components/processing/CreateBatch";
 import CreateRawProduct from "./components/raw_products/CreateRawProduct"
 import ListRawProducts from "./components/raw_products/ListRawProducts";
+import EditableTable from "./components/raw_products/UpdateRawProduct";
+
 function App() {
   return (
       <div className="flex flex-col h-screen">
@@ -22,7 +25,9 @@ function App() {
               <Route path="processing/" element={<ProcessingPage/>}/>
               <Route path="rawproducts/create" element={<CreateRawProduct/>}/>
               <Route path="rawproducts/list" element={<ListRawProducts/>}/>
+              <Route path="rawproducts/update" element={<EditableTable/>}/>
               <Route path="processing/createbatch" element={<CreateNewBatch/>}/>
+              <Route path="processing/create" element={<CreateProduct/>}/>
             </Routes>
               
               
