@@ -1,6 +1,6 @@
 import "./App.css";
 import "./index.css";
-import { Routes, Route, Router } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import NavBar from "./components/extras/NavBar.jsx";
 
 import RawProductPage from "./pages/RawProductsPage";
@@ -11,6 +11,7 @@ import CreateNewBatch from "./components/processing/CreateBatch";
 import CreateRawProduct from "./components/raw_products/CreateRawProduct"
 import ListRawProducts from "./components/raw_products/ListRawProducts";
 import EditableTable from "./components/raw_products/UpdateRawProduct";
+import ProductList from "./components/processing/ListProducts";
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
               <Route path="rawproducts/list" element={<ListRawProducts/>}/>
               <Route path="rawproducts/update" element={<EditableTable/>}/>
               <Route path="processing/createbatch" element={<CreateNewBatch/>}/>
+              <Route path="processing/list" element={<ProductList/>}/>
               <Route path="processing/create" element={<CreateProduct/>}/>
             </Routes>
               

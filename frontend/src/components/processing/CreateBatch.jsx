@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import Heading from '../extras/Heading';
 
 const CreateNewBatch = () => {
   const [productName, setProductName] = useState('');
@@ -46,7 +47,7 @@ const CreateNewBatch = () => {
 
   return (
     <div className="p-6">
-      <h1 className="text-2xl font-bold mb-4">Processing Page</h1>
+      <Heading heading='Create New Batch'/>
       <div className="mb-4">
         <label className="block font-medium text-gray-700">Product Name</label>
         <input

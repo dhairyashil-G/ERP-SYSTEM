@@ -61,18 +61,17 @@ class CreateBatchSheetView(APIView):
             pdf = FPDF()
             pdf.add_page()
 
-            # pdf.set_font('Arial', 'B', 10)
-            # pdf.image('methods/images/logo.jpg', x=10, y=10, w=25, h=30)
-            # pdf.image('methods/images/aquaprobe_logo.png',
-            #         x=pdf.w-60, y=10, w=50, h=25)
-            # pdf.cell(0, 30, '', ln=1)
-
-            pdf.set_font('Arial', 'B', 13)
-            pdf.cell(0, 10, 'Batchsheet', ln=1)
+            pdf.image('processing/images/logo.jpeg', x=10, y=5, w=50, h=20)
+            pdf.set_font('Arial', 'BU', 18)
+            pdf.cell(0, 10, 'Product BatchSheet', align='C', ln=1)
             pdf.ln(5)
+
             pdf.set_font('Arial', 'B', 12)
+            pdf.ln(10)
             pdf.cell(0, 10, f'Product Name : {product_name}', ln=1)
             pdf.cell(0, 10, f'Quantity : {quantity}', ln=1)
+            pdf.ln(5)
+
             # Create a table for weights, raw materials, and sequences
             pdf.set_font('Arial', 'B', 10)
             pdf.cell(40, 10, 'Raw Materials', 1)
