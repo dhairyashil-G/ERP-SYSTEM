@@ -12,11 +12,10 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
         token['first_name'] = user.first_name
         token['last_name'] = user.last_name
         token['username'] = user.username
-        # token['email'] = user.email
-        # token['user_role'] = user.user_role
+        token['email'] = user.email
+        token['user_role'] = user.user_role
         # ...
         return token
-
 
 class RegisterSerializer(serializers.ModelSerializer):
     password1 = serializers.CharField(

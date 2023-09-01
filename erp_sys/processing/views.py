@@ -12,7 +12,7 @@ from rest_framework.views import APIView
 from fpdf import FPDF
 import json
 from io import BytesIO
-
+from rest_framework.permissions import IsAuthenticated
 from reportlab.lib.pagesizes import letter
 from reportlab.lib import colors
 from reportlab.lib.styles import getSampleStyleSheet
@@ -21,19 +21,22 @@ from django.http import HttpResponse
 # Create your views here.
 
 class ProductCreateView(generics.CreateAPIView):
+    permission_classes = [IsAuthenticated]
     queryset = Products.objects.all()
     serializer_class = ProductsSerializer
 
 class ProductListView(generics.ListAPIView):
-    queryset = Products.objects.all()
-    serializer_class = ProductsSerializer
-
-class ProductDeleteView(generics.DestroyAPIView):
     # permission_classes = [IsAuthenticated]
     queryset = Products.objects.all()
     serializer_class = ProductsSerializer
 
+class ProductDeleteView(generics.DestroyAPIView):
+    permission_classes = [IsAuthenticated]
+    queryset = Products.objects.all()
+    serializer_class = ProductsSerializer
+
 class CreateBatchSheetView(APIView):
+    permission_classes = [IsAuthenticated]
     def post(self, request):
         product_name = request.data.get('product_name')
         quantity = request.data.get('quantity')
