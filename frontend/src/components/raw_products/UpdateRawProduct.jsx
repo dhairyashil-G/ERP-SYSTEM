@@ -42,12 +42,16 @@ const EditableTable = () => {
         <thead>
           <tr>
             <th className="px-4 py-2 bg-gray-200">Name</th>
-            <th className="px-4 py-2 bg-gray-200">Calcium Content</th>
-            <th className="px-4 py-2 bg-gray-200">Magnesium Content</th>
-            <th className="px-4 py-2 bg-gray-200">Zinc Content</th>
-            <th className="px-4 py-2 bg-gray-200">Nitrogen Content</th>
-            <th className="px-4 py-2 bg-gray-200">Moly Content</th>
-            <th className="px-4 py-2 bg-gray-200">Quantity</th>
+            <th className="px-4 py-2 bg-gray-200">Calcium (%)</th>
+            <th className="px-4 py-2 bg-gray-200">Magnesium (%)</th>
+            <th className="px-4 py-2 bg-gray-200">Zinc <br /> (%)</th>
+            <th className="px-4 py-2 bg-gray-200">Nitrogen (%)</th>
+            <th className="px-4 py-2 bg-gray-200">Moly <br /> (%)</th>
+            <th className="px-4 py-2 bg-gray-200">TBN <br /> (%)</th>
+            <th className="px-4 py-2 bg-gray-200">Phosphorus (%)</th>
+            <th className="px-4 py-2 bg-gray-200">Sulfur <br /> (%)</th>
+            <th className="px-4 py-2 bg-gray-200">Boron (%)</th>
+            <th className="px-4 py-2 bg-gray-200">Quantity (MT)</th>
             <th className="px-4 py-2 bg-gray-200">FCode</th>
             <th className="px-4 py-2 bg-gray-200">Actions</th>
           </tr>
@@ -102,6 +106,46 @@ const EditableTable = () => {
                   value={product.moly_content}
                   onChange={e =>
                     handleCellValueChange(rowIndex, 'moly_content', e.target.value)
+                  }
+                  className="w-16 p-1 border rounded"
+                />
+              </td>
+              <td className="px-4 py-2">
+                <input
+                  type="number"
+                  value={product.TBN_content}
+                  onChange={e =>
+                    handleCellValueChange(rowIndex, 'TBN_content', e.target.value)
+                  }
+                  className="w-16 p-1 border rounded"
+                />
+              </td>
+              <td className="px-4 py-2">
+                <input
+                  type="number"
+                  value={product.phosphorus_content}
+                  onChange={e =>
+                    handleCellValueChange(rowIndex, 'phosphorus_content', e.target.value)
+                  }
+                  className="w-16 p-1 border rounded"
+                />
+              </td>
+              <td className="px-4 py-2">
+                <input
+                  type="number"
+                  value={product.sulfur_content}
+                  onChange={e =>
+                    handleCellValueChange(rowIndex, 'sulfur_content', e.target.value)
+                  }
+                  className="w-16 p-1 border rounded"
+                />
+              </td>
+              <td className="px-4 py-2">
+                <input
+                  type="number"
+                  value={product.boron_content}
+                  onChange={e =>
+                    handleCellValueChange(rowIndex, 'boron_content', e.target.value)
                   }
                   className="w-16 p-1 border rounded"
                 />

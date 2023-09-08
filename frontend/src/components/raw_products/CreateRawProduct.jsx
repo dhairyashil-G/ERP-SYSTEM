@@ -11,6 +11,10 @@ const AddProductForm = () => {
   const [nitrogenContent, setNitrogenContent] = useState('');
   const [molyContent, setMolyContent] = useState('');
   const [fcode, setFcode] = useState('');
+  const [TBNContent, setTBNContent] = useState('');
+  const [sulfurContent, setSulfurContent] = useState('');
+  const [phosphorusContent, setPhosphorusContent] = useState('');
+  const [boronContent, setBoronContent] = useState('');
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -37,6 +41,18 @@ const AddProductForm = () => {
       case 'molyContent':
         setMolyContent(value);
         break;
+      case 'TBNcontent':
+        setFcode(value);
+        break;
+      case 'phosphoruscontent':
+        setFcode(value);
+        break;
+      case 'sulfurcontent':
+        setFcode(value);
+        break;
+      case 'boroncontent':
+        setFcode(value);
+        break;
       case 'fcode':
         setFcode(value);
         break;
@@ -57,6 +73,10 @@ const AddProductForm = () => {
         zinc_content: parseFloat(zincContent),
         nitrogen_content: parseFloat(nitrogenContent),
         moly_content: parseFloat(molyContent),
+        TBN_content: parseFloat(TBNContent),
+        phosphorus_content: parseFloat(phosphorusContent),
+        sulfur_content: parseFloat(sulfurContent),
+        boron_content: parseFloat(boronContent),
         fcode: fcode
       });
 
@@ -74,6 +94,10 @@ const AddProductForm = () => {
     setZincContent('');
     setNitrogenContent('');
     setMolyContent('');
+    setTBNContent('');
+    setPhosphorusContent('');
+    setSulfurContent('');
+    setBoronContent('');
     setFcode('');
   };
 
@@ -179,6 +203,62 @@ const AddProductForm = () => {
             value={molyContent}
             onChange={handleInputChange}
             placeholder="Enter moly content"
+          />
+        </div>
+        <div className="mb-4 w-6/12 mx-auto">
+          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="fcode">
+            TBN:
+          </label>
+          <input
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            id="TBN_content"
+            type="text"
+            name="TBNContent"
+            value={TBNContent}
+            onChange={handleInputChange}
+            placeholder="Enter Fcode name"
+          />
+        </div>
+        <div className="mb-4 w-6/12 mx-auto">
+          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="fcode">
+            Phosphorus:
+          </label>
+          <input
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            id="phosphorus_content"
+            type="text"
+            name="PhosphorusContent"
+            value={phosphorusContent}
+            onChange={handleInputChange}
+            placeholder="Enter Fcode name"
+          />
+        </div>
+        <div className="mb-4 w-6/12 mx-auto">
+          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="fcode">
+            Sulfur:
+          </label>
+          <input
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            id="sulfur_content"
+            type="text"
+            name="sulfurContent"
+            value={sulfurContent}
+            onChange={handleInputChange}
+            placeholder="Enter Fcode name"
+          />
+        </div>
+        <div className="mb-4 w-6/12 mx-auto">
+          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="fcode">
+            Boron:
+          </label>
+          <input
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            id="boron_content"
+            type="text"
+            name="boronContent"
+            value={boronContent}
+            onChange={handleInputChange}
+            placeholder="Enter Fcode name"
           />
         </div>
         <div className="mb-4 w-6/12 mx-auto">

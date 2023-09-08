@@ -59,7 +59,7 @@ const CreateNewBatch = () => {
         />
       </div>
       <div className="mb-4">
-        <label className="block font-medium text-gray-700">Quantity</label>
+        <label className="block font-medium text-gray-700">Quantity (MT)</label>
         <input
           type="number"
           name="quantity"

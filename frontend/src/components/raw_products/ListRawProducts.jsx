@@ -64,6 +64,22 @@ function ListRawProducts() {
             Header: "Zinc %",
             accessor: "zinc_content",
           },
+          {
+            Header: "TBN %",
+            accessor: "TBN_content",
+          },
+          {
+            Header: "Phosphorus %",
+            accessor: "phosphorus_content",
+          },
+          {
+            Header: "Sulfur %",
+            accessor: "sulfur_content",
+          },
+          {
+            Header: "Boron %",
+            accessor: "boron_content",
+          },
         ],
         []
       );
