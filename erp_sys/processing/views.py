@@ -1,22 +1,14 @@
 from datetime import datetime
-from django.shortcuts import render
-from django.views import View
-import requests
-from rest_framework import viewsets
 from rest_framework import generics,status
 from rest_framework.response import Response
 from .serializer import ProductsSerializer
-from .models import Products
+from .models import Products,ProductsSpecs
+from RawProducts.models import RawProduct
 from rest_framework.views import APIView
-
+from collections import defaultdict
 from fpdf import FPDF
-import json
 from io import BytesIO
 from rest_framework.permissions import IsAuthenticated
-from reportlab.lib.pagesizes import letter
-from reportlab.lib import colors
-from reportlab.lib.styles import getSampleStyleSheet
-from reportlab.platypus import SimpleDocTemplate, Table, TableStyle
 from django.http import HttpResponse
 # Create your views here.
 
@@ -36,7 +28,7 @@ class ProductDeleteView(generics.DestroyAPIView):
     serializer_class = ProductsSerializer
 
 class CreateBatchSheetView(APIView):
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
     def post(self, request):
         product_name = request.data.get('product_name')
         quantity = request.data.get('quantity')
@@ -47,7 +39,77 @@ class CreateBatchSheetView(APIView):
             return Response({"error": "Product not found"}, status=status.HTTP_404_NOT_FOUND)
 
         # Prepare data for the batch sheet
-        weights = [float(weight.replace('[', '').replace(']', '')) * quantity for weight in product.weights.split(',')]
+                # Step 1: Search for raw materials required for a given product name
+    
+        try:
+            product = Products.objects.get(name=product_name)
+            raw_materials = product.raw_materials.split(',')  # Assuming raw materials are comma-separated
+        except Products.DoesNotExist:
+            raw_materials = []
+        raw_materials = [element.strip('[] ') for element in raw_materials]
+        
+        ProductsSpecs_tuple = ProductsSpecs.objects.get(name=product_name)
+
+        ans={value:0 for value in raw_materials}
+        if('A.O.1' in raw_materials):
+            RawProduct_tuple = RawProduct.objects.get(name='A.O.1')
+            ans['A.O.1']=float((ProductsSpecs_tuple.zinc_content/RawProduct_tuple.zinc_content)*100)
+            # ans['TBN']=ans['TBN']+RawProduct_tuple.TBN_content
+        if('A.O.2' in raw_materials):
+            RawProduct_tuple = RawProduct.objects.get(name='A.O.2')
+            ans['A.O.2']=float((ProductsSpecs_tuple.zinc_content/RawProduct_tuple.zinc_content)*100)
+            # ans['TBN']=ans['TBN']+RawProduct_tuple.TBN_content
+        if('DISPERSANT 1' in raw_materials):
+            RawProduct_tuple = RawProduct.objects.get(name='DISPERSANT 1')
+            ans['DISPERSANT 1']=float((ProductsSpecs_tuple.nitrogen_content/RawProduct_tuple.nitrogen_content)*100)
+            # ans['TBN']=ans['TBN']+RawProduct_tuple.TBN_content
+        if('DISPERSANT 2' in raw_materials):
+            RawProduct_tuple = RawProduct.objects.get(name='DISPERSANT 2')
+            ans['DISPERSANT 2']=float((ProductsSpecs_tuple.nitrogen_content/RawProduct_tuple.nitrogen_content)*100)
+            # ans['TBN']=ans['TBN']+RawProduct_tuple.TBN_content
+        if('MODTC' in raw_materials):
+            RawProduct_tuple = RawProduct.objects.get(name='MODTC')
+            ans['MODTC']=float((ProductsSpecs_tuple.moly_content/RawProduct_tuple.moly_content)*100)
+            # ans['TBN']=ans['TBN']+RawProduct_tuple.TBN_content
+        if('C400' in raw_materials):
+            Products_tuple= Products.objects.get(name=product_name)
+            RawProduct_tuple = RawProduct.objects.get(name='PH250')
+            Products_tuple_weightss=eval(Products_tuple.weights)
+            Products_tuple_weights=Products_tuple_weightss[1]
+            print('ProductsSpecs_tuple.calcium_content',ProductsSpecs_tuple.calcium_content)
+            a=float(ProductsSpecs_tuple.calcium_content)-((float(Products_tuple_weights)*float(RawProduct_tuple.calcium_content))/100)
+            
+            RawProduct_tuple2 = RawProduct.objects.get(name='C400')
+            print('RawProduct_tuple2.calcium_content',RawProduct_tuple2.calcium_content)
+            batch_c400=((a)/float(RawProduct_tuple2.calcium_content))*100
+            ans['C400']=batch_c400
+        if('PH250' in raw_materials):
+            Products_tuple= Products.objects.get(name=product_name)
+            Products_tuple_weightss=eval(Products_tuple.weights)
+            Products_tuple_weights=Products_tuple_weightss[1]
+            ans['PH250']=Products_tuple_weights
+        if('A.FOAM' in raw_materials):
+            ans['A.FOAM']=0.2
+        if('DND' in raw_materials):
+            Products_tuple= Products.objects.get(name=product_name)
+            Products_tuple_weightss=eval(Products_tuple.weights)
+            Products_tuple_weights=Products_tuple_weightss[-2]
+            print('Products_tuple_weights----------------------------',Products_tuple_weights)
+            ans['DND']=Products_tuple_weights
+        weights=[]
+        total=0
+        for key,value in ans.items():
+            total=total+value
+        ans['BASE OIL 150']=100-total
+
+        print(ans)
+
+        for key, value in ans.items():
+            rawproduct_weight=round((value * quantity) / 100,5)
+            weights.append(rawproduct_weight)
+            # ans[key] = (value * quantity) / 100
+
+        # weights = [float(weight.replace('[', '').replace(']', '')) * quantity for weight in product.weights.split(',')]
         raw_materials = product.raw_materials.split(',')
         sequences = product.sequences.split(',')
 
