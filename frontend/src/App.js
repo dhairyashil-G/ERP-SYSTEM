@@ -14,6 +14,7 @@ import ListRawProducts from "./components/raw_products/ListRawProducts";
 import EditableTable from "./components/raw_products/UpdateRawProduct";
 import ProductList from "./components/processing/ListProducts";
 
+import Sales from "./components/processing/Sales";
 
 import Login from "./components/accounts/Login";
 import Signup from "./components/accounts/SignUp";
@@ -36,6 +37,8 @@ function App() {
               <Route path="processing/createbatch" element={<CreateNewBatch/>}/>
               <Route path="processing/list" element={<ProductList/>}/>
               <Route path="processing/create" element={<CreateProduct/>}/>
+
+              <Route path="sales" element={<Sales/>}/>
 
               <Route path="login" element={<Login/>}/>
               <Route path="signup" element={<Signup/>}/>

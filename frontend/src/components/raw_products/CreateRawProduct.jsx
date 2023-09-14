@@ -41,17 +41,17 @@ const AddProductForm = () => {
       case 'molyContent':
         setMolyContent(value);
         break;
-      case 'TBNcontent':
-        setFcode(value);
+      case 'TBNContent':
+        setTBNContent(value);
         break;
-      case 'phosphoruscontent':
-        setFcode(value);
+      case 'phosphorusContent':
+        setPhosphorusContent(value);
         break;
-      case 'sulfurcontent':
-        setFcode(value);
+      case 'sulfurContent':
+        setSulfurContent(value);
         break;
-      case 'boroncontent':
-        setFcode(value);
+      case 'boronContent':
+        setBoronContent(value);
         break;
       case 'fcode':
         setFcode(value);
@@ -212,11 +212,11 @@ const AddProductForm = () => {
           <input
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             id="TBN_content"
-            type="text"
+            type="number"
             name="TBNContent"
             value={TBNContent}
             onChange={handleInputChange}
-            placeholder="Enter Fcode name"
+            placeholder="Enter TBN content"
           />
         </div>
         <div className="mb-4 w-6/12 mx-auto">
@@ -226,11 +226,11 @@ const AddProductForm = () => {
           <input
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             id="phosphorus_content"
-            type="text"
-            name="PhosphorusContent"
+            type="number"
+            name="phosphorusContent"
             value={phosphorusContent}
             onChange={handleInputChange}
-            placeholder="Enter Fcode name"
+            placeholder="Enter phosphorus content"
           />
         </div>
         <div className="mb-4 w-6/12 mx-auto">
@@ -240,11 +240,11 @@ const AddProductForm = () => {
           <input
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             id="sulfur_content"
-            type="text"
+            type="number"
             name="sulfurContent"
             value={sulfurContent}
             onChange={handleInputChange}
-            placeholder="Enter Fcode name"
+            placeholder="Enter sulfur content"
           />
         </div>
         <div className="mb-4 w-6/12 mx-auto">
@@ -254,11 +254,11 @@ const AddProductForm = () => {
           <input
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             id="boron_content"
-            type="text"
+            type="number"
             name="boronContent"
             value={boronContent}
             onChange={handleInputChange}
-            placeholder="Enter Fcode name"
+            placeholder="Enter boron content"
           />
         </div>
         <div className="mb-4 w-6/12 mx-auto">

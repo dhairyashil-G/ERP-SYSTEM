@@ -28,9 +28,19 @@ const EditableTable = () => {
     }
   };
 
+  const updateproducttable = async () => {
+    try {
+      const response = await axios.get('http://127.0.0.1:8000/processing/updateproducttable'); // Refresh the data after update
+    } catch (error) {
+      console.error('Error updating raw product:', error);
+    }
+  };
+  
+
   const handleCellValueChange = (rowIndex, field, value) => {
     const updatedRawProducts = [...rawProducts];
     updatedRawProducts[rowIndex][field] = value;
+    console.log(updatedRawProducts)
     setRawProducts(updatedRawProducts);
   };
 
@@ -41,7 +51,7 @@ const EditableTable = () => {
       <table className="table-auto w-full border-collapse border">
         <thead>
           <tr>
-            <th className="px-4 py-2 bg-gray-200">Name</th>
+            <th className="px-4 py-2 bg-gray-200">FCODE Name</th>
             <th className="px-4 py-2 bg-gray-200">Calcium (%)</th>
             <th className="px-4 py-2 bg-gray-200">Magnesium (%)</th>
             <th className="px-4 py-2 bg-gray-200">Zinc <br /> (%)</th>
@@ -52,14 +62,14 @@ const EditableTable = () => {
             <th className="px-4 py-2 bg-gray-200">Sulfur <br /> (%)</th>
             <th className="px-4 py-2 bg-gray-200">Boron (%)</th>
             <th className="px-4 py-2 bg-gray-200">Quantity (MT)</th>
-            <th className="px-4 py-2 bg-gray-200">FCode</th>
+            <th className="px-4 py-2 bg-gray-200">Price/Kg</th>
             <th className="px-4 py-2 bg-gray-200">Actions</th>
           </tr>
         </thead>
         <tbody>
           {rawProducts.map((product, rowIndex) => (
             <tr key={product.id} className={rowIndex % 2 === 0 ? 'bg-gray-100' : ''}>
-              <td className="px-4 py-2">{product.name}</td>
+              <td className="px-4 py-2">{product.fcode}</td>
               <td className="px-4 py-2">
                 <input
                   type="number"
@@ -75,7 +85,7 @@ const EditableTable = () => {
                   type="number"
                   value={product.magnesium_content}
                   onChange={e =>
-                    handleCellValueChange(rowIndex, 'magnesium_content', e.target.value)
+                    handleCellValueChange(rowIndex, 'magnesium_content',e.target.value)
                   }
                   className="w-16 p-1 border rounded"
                 />
@@ -160,7 +170,17 @@ const EditableTable = () => {
                   className="w-16 p-1 border rounded"
                 />
               </td>
-              <td className="px-4 py-2">{product.fcode}</td>
+              <td className="px-4 py-2">
+                <input
+                  type="number"
+                  value={product.price}
+                  onChange={e =>
+                    handleCellValueChange(rowIndex, 'price', (e.target.value))
+                  }
+                  className="w-16 p-1 border rounded"
+                />
+              </td>
+              
               <td className="px-4 py-2">
                 <button
                   onClick={() => handleUpdate(product.id, rawProducts[rowIndex])}
@@ -174,8 +194,18 @@ const EditableTable = () => {
         </tbody>
       </table>
     </div>
+    <div className='mx-auto text-center'>
+      <button onClick={updateproducttable}
+        className="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600"
+      >Update Products Table</button>
+    </div>
     </>
   );
 };
 
 export default EditableTable;
+
+
+
+
+

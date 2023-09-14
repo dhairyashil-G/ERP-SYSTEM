@@ -8,5 +8,7 @@ urlpatterns = [
      path('list/', views.ProductListView.as_view(), name='raw-product-list'),
      path("delete/<int:pk>/", views.ProductDeleteView.as_view(), name="delete"),
      path('batch-sheet/create/', views.CreateBatchSheetView.as_view(), name='create-batch-sheet'),
+     path('updateproducttable',views.UpdateProductTableView.as_view(),name='update-product-table'),
+     path('salestable',views.SalesListView.as_view(),name='sales')
      # path('batch-sheet/download/',views.DownloadBatchSheetView.as_view(), name='download_batch_sheet'),
 ]

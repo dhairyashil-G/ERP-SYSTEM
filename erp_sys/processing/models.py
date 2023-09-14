@@ -5,6 +5,7 @@ class Products(models.Model):
     raw_materials = models.CharField(max_length=255)
     weights = models.CharField(max_length=255)
     sequences = models.CharField(max_length=255)
+    raw_materials_percentage=models.CharField(max_length=255,default='')
     
     def __str__(self):
         return self.name
@@ -22,5 +23,10 @@ class ProductsSpecs(models.Model):
     phosphorus_content = models.DecimalField(max_digits=10, decimal_places=2, default=0.0)
     sulfur_content = models.DecimalField(max_digits=10, decimal_places=2, default=0.0)
     boron_content = models.DecimalField(max_digits=10, decimal_places=2, default=0.0)
+
+class Sales(models.Model):
+    name=models.CharField(max_length=22,primary_key=True)
+    price_per_kg=models.DecimalField(max_digits=10,decimal_places=2,default=0.0)
+    # pdf_blob = models.BinaryField()
 
 # Create your models here.

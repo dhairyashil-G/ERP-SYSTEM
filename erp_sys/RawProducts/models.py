@@ -19,6 +19,7 @@ class RawProduct(models.Model):
     quantity = models.IntegerField()
 
     fcode = models.CharField(max_length=20, default="N.A")
+    price= models.DecimalField(max_digits=10, decimal_places=2, default=0.0)
     # Add more fields as per your requirements
 
 
@@ -39,5 +40,5 @@ class FinalRawProduct(models.Model):
 
 
     final_quantity = models.IntegerField()
-
+    final_price= models.DecimalField(max_digits=10, decimal_places=2, default=0.0)
     final_fcode = models.CharField(max_length=20, default="N.A")
