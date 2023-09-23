@@ -1,8 +1,9 @@
 import Heading from '../extras/Heading';
 import React, { useState } from 'react';
-import axios from 'axios';
+import useAxios from '../../utils/useAxios';
 
 const AddProductForm = () => {
+  const api=useAxios();
   const [productName, setProductName] = useState('');
   const [quantity, setQuantity] = useState('');
   const [calciumContent, setCalciumContent] = useState('');
@@ -65,7 +66,7 @@ const AddProductForm = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post('http://127.0.0.1:8000/rawproduct/create/', {
+      const response = await api.post('http://127.0.0.1:8000/rawproduct/create/', {
         name: productName,
         quantity: parseInt(quantity, 10),
         calcium_content: parseFloat(calciumContent),

@@ -1,12 +1,14 @@
 import React, { useState,useEffect,useMemo} from "react";
 import axios from "axios";
+import useAxios from "../../utils/useAxios";
 import Heading from "../extras/Heading";
 import Table from "../extras/Table";
 export default function ProductList(){
+    const api=useAxios()
     const [products,setProducts]=useState([]);
     const getdata = async() => {
         try{
-            const response= await axios.get('http://localhost:8000/processing/list/')
+            const response= await api.get('http://localhost:8000/processing/list/')
             console.log(response)
             setProducts(response.data);
         }

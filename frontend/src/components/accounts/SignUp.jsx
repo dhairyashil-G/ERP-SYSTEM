@@ -10,6 +10,8 @@ const Signup = () => {
   const [password2, setPassword2] = useState("");
   const [user_role, setUserrole] = useState("");
   const [alerts,setalert]=useState({})
+  const [first_name,setFirstname]=useState("");
+  const [last_name,setLastname]=useState("")
   const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
@@ -21,7 +23,7 @@ const Signup = () => {
     }
 
     try {
-      const data = JSON.stringify({ username, email, user_role, password1, password2});
+      const data = JSON.stringify({ username, email,first_name,last_name, user_role, password1, password2});
       const options = { headers: { "content-type": "application/json" } };
       await axios.post("http://127.0.0.1:8000/accounts/signup/", data, options);
     //   await axios.post("https://expense-tracker-backend.up.railway.app/accounts/signup/", data, options);
@@ -49,6 +51,24 @@ const Signup = () => {
               className="h-8 w-full rounded-md border border-slate-300 text-sm pl-2 bg-transparent outline-blue-600 shadow-sm"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
+            />
+            <label className="text-sm">First Name</label>
+            <input
+              type="text"
+              id="first_name"
+              placeholder="Enter First Name"
+              className="h-8 w-full rounded-md border border-slate-300 text-sm pl-2 bg-transparent outline-blue-600 shadow-sm"
+              value={first_name}
+              onChange={(e) => setFirstname(e.target.value)}
+            />
+            <label className="text-sm">Last name</label>
+            <input
+              type="text"
+              id="last_name"
+              placeholder="Enter Last Name"
+              className="h-8 w-full rounded-md border border-slate-300 text-sm pl-2 bg-transparent outline-blue-600 shadow-sm"
+              value={last_name}
+              onChange={(e) => setLastname(e.target.value)}
             />
             <label className="text-sm">Email</label>
             <input

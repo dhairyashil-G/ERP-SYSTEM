@@ -1,18 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import useAxios from '../../utils/useAxios';
 import Heading from '../extras/Heading';
 
 
 const EditableTable = () => {
   const [rawProducts, setRawProducts] = useState([]);
-
+  const api=useAxios();
   useEffect(() => {
     fetchRawProducts();
   }, []);
 
   const fetchRawProducts = async () => {
     try {
-      const response = await axios.get('http://127.0.0.1:8000/rawproduct/list/'); // Update the API endpoint
+      const response = await api.get('http://127.0.0.1:8000/rawproduct/list/'); // Update the API endpoint
       setRawProducts(response.data);
     } catch (error) {
       console.error('Error fetching raw products:', error);
@@ -21,7 +21,7 @@ const EditableTable = () => {
 
   const handleUpdate = async (id, updatedData) => {
     try {
-      await axios.put(`http://127.0.0.1:8000/rawproduct/update/${id}/`, updatedData); // Update the API endpoint
+      await api.put(`http://127.0.0.1:8000/rawproduct/update/${id}/`, updatedData); // Update the API endpoint
       fetchRawProducts(); // Refresh the data after update
     } catch (error) {
       console.error('Error updating raw product:', error);
@@ -30,7 +30,7 @@ const EditableTable = () => {
 
   const updateproducttable = async () => {
     try {
-      const response = await axios.get('http://127.0.0.1:8000/processing/updateproducttable'); // Refresh the data after update
+      const response = await api.get('http://127.0.0.1:8000/processing/updateproducttable'); // Refresh the data after update
     } catch (error) {
       console.error('Error updating raw product:', error);
     }

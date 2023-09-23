@@ -2,14 +2,14 @@ import Heading from "../extras/Heading";
 import { useEffect,useState } from "react";
 import Table from "../extras/Table";
 import { useMemo } from "react";
-import axios from "axios";
+import useAxios from "../../utils/useAxios";
 
 function ListRawProducts() {
     const [rawproducts, setRawProducts] = useState([]);
-    
+    const api=useAxios();
     const getdata = async () => {
       try {
-        const response = await axios.get(`http://127.0.0.1:8000/rawproduct/list/`);
+        const response = await api.get(`/rawproduct/list/`);
         //   console.log(JSON.parse(response.data.bar_fig));
           console.log(response.data);
         //   console.log(JSON.parse(response.data.pie_fig));

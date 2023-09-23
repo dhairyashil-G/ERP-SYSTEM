@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import useAxios from '../../utils/useAxios';
 import Heading from '../extras/Heading';
 
 const CreateNewBatch = () => {
+  const api=useAxios();
   const [productName, setProductName] = useState('');
   const [quantity, setQuantity] = useState('');
   const [batchSheetData, setBatchSheetData] = useState(null);
@@ -19,7 +20,7 @@ const CreateNewBatch = () => {
 
   const fetchBatchSheet = async () => {
     try {
-      const response = await axios.post('http://127.0.0.1:8000/processing/batch-sheet/create/', {
+      const response = await api.post('http://127.0.0.1:8000/processing/batch-sheet/create/', {
         product_name: productName,quantity: parseInt(quantity,10), pdf: false});
       setBatchSheetData(response.data);
     } catch (error) {
@@ -29,7 +30,7 @@ const CreateNewBatch = () => {
 
   const handleDownloadPDF = async () => {
       try {
-      const response = await axios.post('http://127.0.0.1:8000/processing/batch-sheet/create/',
+      const response = await api.post('http://127.0.0.1:8000/processing/batch-sheet/create/',
         { product_name: productName,quantity: parseInt(quantity,10), pdf: true },
         { responseType: "blob" });
         const url = window.URL.createObjectURL(new Blob([response.data]));

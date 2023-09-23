@@ -5,25 +5,24 @@ from .serializer import ProductsSerializer,SalesSerializer
 from .models import Products,ProductsSpecs,Sales
 from RawProducts.models import RawProduct
 from rest_framework.views import APIView
-from collections import defaultdict
 from fpdf import FPDF
 from io import BytesIO
 from rest_framework.permissions import IsAuthenticated
 from django.http import HttpResponse
-# Create your views here.
+
 
 class ProductCreateView(generics.CreateAPIView):
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
     queryset = Products.objects.all()
     serializer_class = ProductsSerializer
 
 class ProductListView(generics.ListAPIView):
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
     queryset = Products.objects.all()
     serializer_class = ProductsSerializer
 
 class ProductDeleteView(generics.DestroyAPIView):
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
     queryset = Products.objects.all()
     serializer_class = ProductsSerializer
 
@@ -35,9 +34,6 @@ class UpdateProductTableView(APIView):
                 product = Products.objects.get(name=product_name)
             except Products.DoesNotExist:
                 return Response({"error": "Product not found"}, status=status.HTTP_404_NOT_FOUND)
-
-            # Prepare data for the batch sheet
-                    # Step 1: Search for raw materials required for a given product name
         
             try:
                 product = Products.objects.get(name=product_name)
@@ -74,7 +70,6 @@ class UpdateProductTableView(APIView):
                 RawProduct_tuple = RawProduct.objects.get(name='PH250')
                 Products_tuple_weightss=eval(Products_tuple.weights)
                 Products_tuple_weights=Products_tuple_weightss[1]
-                print('ProductsSpecs_tuple.calcium_content',ProductsSpecs_tuple.calcium_content)
                 a=float(ProductsSpecs_tuple.calcium_content)-((float(Products_tuple_weights)*float(RawProduct_tuple.calcium_content))/100)
                 
                 RawProduct_tuple2 = RawProduct.objects.get(name='C400')
@@ -92,13 +87,11 @@ class UpdateProductTableView(APIView):
                 Products_tuple= Products.objects.get(name=product_name)
                 Products_tuple_weightss=eval(Products_tuple.weights)
                 Products_tuple_weights=Products_tuple_weightss[-2]
-                print('Products_tuple_weights----------------------------',Products_tuple_weights)
                 ans['DND']=Products_tuple_weights
             total=0
             for key,value in ans.items():
                 total=total+value
             ans['BASE OIL 150']=100-total
-            print(ans)
             try:
                 Products.objects.filter(name=product_name).update(raw_materials_percentage=ans)
             except:
@@ -109,12 +102,13 @@ class UpdateProductTableView(APIView):
             product = Products.objects.get(name=product_name)
             raw_materials_percentage = product.raw_materials_percentage
             ans=eval(raw_materials_percentage)
+            print(f'{product_name}:{ans}')
             total=0
             for key, value in ans.items():
                 print(key)
                 rawproduct=RawProduct.objects.get(name=key)
                 rawproduct_price=rawproduct.price
-                total_rawproduct_price=float((value * 0.001) / 100)*float(rawproduct_price)
+                total_rawproduct_price=float((value *float(rawproduct_price)) / 100)
                 total+=total_rawproduct_price
             print(total)
             try:
