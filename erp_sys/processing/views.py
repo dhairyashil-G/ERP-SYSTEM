@@ -206,6 +206,6 @@ class CreateBatchSheetView(APIView):
 
 
 class SalesListView(generics.ListAPIView):
-    permission_classes = [IsAdmin,IsSalesTeam]
+    permission_classes = [IsAdmin | IsSalesTeam]
     queryset = Sales.objects.all()
     serializer_class = SalesSerializer
