@@ -9,20 +9,21 @@ from fpdf import FPDF
 from io import BytesIO
 from rest_framework.permissions import IsAuthenticated
 from django.http import HttpResponse
+from accounts.permissions import IsAdmin,IsSalesTeam
 
 
 class ProductCreateView(generics.CreateAPIView):
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [IsAdmin]
     queryset = Products.objects.all()
     serializer_class = ProductsSerializer
 
 class ProductListView(generics.ListAPIView):
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [IsAdmin]
     queryset = Products.objects.all()
     serializer_class = ProductsSerializer
 
 class ProductDeleteView(generics.DestroyAPIView):
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [IsAdmin]
     queryset = Products.objects.all()
     serializer_class = ProductsSerializer
 
@@ -205,6 +206,6 @@ class CreateBatchSheetView(APIView):
 
 
 class SalesListView(generics.ListAPIView):
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [IsAdmin,IsSalesTeam]
     queryset = Sales.objects.all()
     serializer_class = SalesSerializer
