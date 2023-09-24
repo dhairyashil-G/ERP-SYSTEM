@@ -113,6 +113,7 @@ const RawProductInput = () => {
     e.preventDefault();
 
     try {
+      console.log(`[${RawproductNames.join(', ')}]`);
       const response = await api.post('http://127.0.0.1:8000/processing/create/', {
         name: productName,
         raw_materials: `[${RawproductNames.join(', ')}]`,
@@ -126,25 +127,25 @@ const RawProductInput = () => {
     } catch (error) {
       console.error('Error saving data:', error);
     }
-    try {
-      const response = await api.post('http://127.0.0.1:8000/processing/updateproductspecs', {
-        name: productName,
-        calcium_content :calciumContent,
-        magnesium_content: magnesiumContent,
-        zinc_content: zincContent,
-        nitrogen_content: nitrogenContent,
-        moly_content: molyContent,
-        TBN_content: TBNContent,
-        phosphorus_content: phosphorusContent,
-        sulfur_content: sulfurContent,
-        boron_content: boronContent
-      });
+    // try {
+    //   const response = await api.post('http://127.0.0.1:8000/processing/updateproductspecs', {
+    //     name: productName,
+    //     calcium_content :calciumContent,
+    //     magnesium_content: magnesiumContent,
+    //     zinc_content: zincContent,
+    //     nitrogen_content: nitrogenContent,
+    //     moly_content: molyContent,
+    //     TBN_content: TBNContent,
+    //     phosphorus_content: phosphorusContent,
+    //     sulfur_content: sulfurContent,
+    //     boron_content: boronContent
+    //   });
 
-      // Handle success or show a message to the user
-      console.log('Data saved successfully:', response.data);
-    } catch (error) {
-      console.error('Error saving data:', error);
-    }
+    //   // Handle success or show a message to the user
+    //   console.log('Data saved successfully:', response.data);
+    // } catch (error) {
+    //   console.error('Error saving data:', error);
+    // }
   };
 
   const handleNameChange = (e) =>{

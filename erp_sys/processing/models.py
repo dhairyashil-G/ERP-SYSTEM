@@ -3,7 +3,7 @@ from django.db import models
 class Products(models.Model):
     name = models.CharField(max_length=255,primary_key=True)
     raw_materials = models.CharField(max_length=255)
-    weights = models.CharField(max_length=255,default='')
+    fixed_percentages = models.CharField(max_length=255,default='')
     sequences = models.CharField(max_length=255)
     raw_materials_percentage=models.CharField(max_length=255,default='')
     
