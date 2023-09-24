@@ -1,5 +1,5 @@
 import React, { useState,useEffect,useMemo} from "react";
-import axios from "axios";
+
 import useAxios from "../../utils/useAxios";
 import Heading from "../extras/Heading";
 import Table from "../extras/Table";

@@ -1,15 +1,15 @@
 from rest_framework import serializers
-from .models import RawProduct
+from .models import RawProduct,TempRawProduct
 
 class RawProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = RawProduct
         fields = '__all__'
 
-# class RawProductSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = RawProduct
-#         fields = ['name', 'quantity','fcode']
+class RawProductUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TempRawProduct
+        fields = '__all__'
     
     def update(self, instance, validated_data):
         instance.quantity = validated_data.get('quantity', instance.quantity)

@@ -7,6 +7,7 @@ import Error from "./components/extras/ErrorPage";
 
 import RawProductPage from "./pages/RawProductsPage";
 import ProcessingPage from "./pages/ProcessingPage";
+import AdminApproval from "./pages/AdminApproval";
 
 import CreateProduct from "./components/processing/CreateProduct";
 import CreateNewBatch from "./components/processing/CreateBatch";
@@ -44,6 +45,7 @@ function App() {
               <Route path="login" element={<Login/>}/>
               <Route path="signup" element={<Signup/>}/>
               <Route path="*" element={<Error/>}/>
+              <Route path="adminapproval" element={<AdminApproval/>}/>
             </Routes>
               
               

@@ -1,19 +1,18 @@
 from datetime import datetime
 from rest_framework import generics,status
 from rest_framework.response import Response
-from .serializer import ProductsSerializer,SalesSerializer
+from .serializer import ProductsSerializer,SalesSerializer,ProductSpecsSerializer
 from .models import Products,ProductsSpecs,Sales
 from RawProducts.models import RawProduct
 from rest_framework.views import APIView
 from fpdf import FPDF
 from io import BytesIO
-from rest_framework.permissions import IsAuthenticated
 from django.http import HttpResponse
 from accounts.permissions import IsAdmin,IsSalesTeam
 
 
 class ProductCreateView(generics.CreateAPIView):
-    permission_classes = [IsAdmin]
+    # permission_classes = [IsAdmin]
     queryset = Products.objects.all()
     serializer_class = ProductsSerializer
 
@@ -26,6 +25,11 @@ class ProductDeleteView(generics.DestroyAPIView):
     permission_classes = [IsAdmin]
     queryset = Products.objects.all()
     serializer_class = ProductsSerializer
+
+class UpdateProductSpecsView(generics.CreateAPIView):
+    permission_classes= [IsAdmin]
+    queryset= ProductsSpecs.objects.all()
+    serializer_class = ProductSpecsSerializer
 
 class UpdateProductTableView(APIView):
     def get(self,request):

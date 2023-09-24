@@ -1,6 +1,7 @@
 import { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import AuthContext from "../../context/AuthContext";
+
 const Navbar = () => {
   const [navbar, setNavbar] = useState(false);
   const { user, logoutUser } = useContext(AuthContext);
@@ -11,7 +12,7 @@ const Navbar = () => {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <div className="flex-shrink-0">
-            <img className="h-8 w-auto" src="/logo.png" alt="Logo" />
+            <img className="h-8 w-auto" src="../../../public/logo.jpeg" alt="Logo" />
           </div>
 
           {/* Menu */}
@@ -25,30 +26,28 @@ const Navbar = () => {
                   Home
                 </a>
               </Link>
-              <Link to="/rawproducts">
-                <a
-                  href="#"
-                  className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-                  >
-                  Raw Products
-                </a>
-              </Link>
-              <Link to="/processing">
-                <a
-                  href="#"
-                  className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-                  >
-                  Batch Processing
-                </a>
-              </Link>
-              <Link to="/sales">
-                <a
-                  href="#"
-                  className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-                  >
-                  Sales
-                </a>
-              </Link>
+              <div className="relative group">
+                <button className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
+                  Departments
+                </button>
+                <ul className="absolute hidden text-gray-300 bg-gray-700 rounded-md mt-2 space-y-2 group-hover:block">
+                  <li>
+                    <Link to="/rawproducts" className="block px-4 py-2 hover:bg-gray-600">
+                      Raw Products
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/processing" className="block px-4 py-2 hover:bg-gray-600">
+                      Batch Processing
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/sales" className="block px-4 py-2 hover:bg-gray-600">
+                      Sales
+                    </Link>
+                  </li>
+                </ul>
+              </div>
               <Link to="/about">
                 <a
                   href="#"
