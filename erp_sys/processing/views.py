@@ -73,9 +73,9 @@ class UpdateProductTableView(APIView):
             if('C400' in raw_materials):
                 Products_tuple= Products.objects.get(name=product_name)
                 RawProduct_tuple = RawProduct.objects.get(name='PH250')
-                Products_tuple_weightss=eval(Products_tuple.weights)
-                Products_tuple_weights=Products_tuple_weightss[1]
-                a=float(ProductsSpecs_tuple.calcium_content)-((float(Products_tuple_weights)*float(RawProduct_tuple.calcium_content))/100)
+                Product_fixed_percentage=eval(Products_tuple.fixed_percentages)
+                Ph250_fixed=Product_fixed_percentage['PH250']
+                a=float(ProductsSpecs_tuple.calcium_content)-((float(Ph250_fixed)*float(RawProduct_tuple.calcium_content))/100)
                 
                 RawProduct_tuple2 = RawProduct.objects.get(name='C400')
                 print('RawProduct_tuple2.calcium_content',RawProduct_tuple2.calcium_content)
@@ -83,16 +83,16 @@ class UpdateProductTableView(APIView):
                 ans['C400']=batch_c400
             if('PH250' in raw_materials):
                 Products_tuple= Products.objects.get(name=product_name)
-                Products_tuple_weightss=eval(Products_tuple.weights)
-                Products_tuple_weights=Products_tuple_weightss[1]
-                ans['PH250']=Products_tuple_weights
+                Product_fixed_percentage=eval(Products_tuple.fixed_percentages)
+                Ph250_fixed=Product_fixed_percentage['PH250']
+                ans['PH250']=Ph250_fixed
             if('A.FOAM' in raw_materials):
                 ans['A.FOAM']=0.2
             if('DND' in raw_materials):
                 Products_tuple= Products.objects.get(name=product_name)
-                Products_tuple_weightss=eval(Products_tuple.weights)
-                Products_tuple_weights=Products_tuple_weightss[-2]
-                ans['DND']=Products_tuple_weights
+                Product_fixed_percentage=eval(Products_tuple.fixed_percentages)
+                DND_fixed=Product_fixed_percentage['DND']
+                ans['DND']=DND_fixed
             total=0
             for key,value in ans.items():
                 total=total+value

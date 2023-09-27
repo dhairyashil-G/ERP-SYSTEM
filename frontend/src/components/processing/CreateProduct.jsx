@@ -8,6 +8,8 @@ const RawProductInput = () => {
   const [rawProducts, setRawProducts] = useState([]);
   const [checkboxValues, setCheckboxValues] = useState({});
   const [sequenceInputs, setSequenceInputs] = useState({});
+  const [fixedPercentages, setFixedPercentages] = useState({});
+  const [fixedPercentageString,setFixedPercentagesString]= useState('');
   const [selectedProducts, setSelectedProducts] = useState([]);
 
   const [calciumContent, setCalciumContent] = useState('');
@@ -19,6 +21,18 @@ const RawProductInput = () => {
   const [sulfurContent, setSulfurContent] = useState('');
   const [phosphorusContent, setPhosphorusContent] = useState('');
   const [boronContent, setBoronContent] = useState('');
+
+  const handleFixedPercentageChange = (event, rawProduct) => {
+    const formattedString = '{' +
+    Object.entries(fixedPercentages).map(([key, value]) => `"${key}": ${value}`).join(', ') +
+    '}'
+    setFixedPercentagesString(formattedString)
+    const { name, value } = event.target;
+    setFixedPercentages(prevPercentages => ({
+      ...prevPercentages,
+      [rawProduct.name]: value
+    }));
+  };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -111,13 +125,12 @@ const RawProductInput = () => {
     const RawproductNames = selected.map(product => product.name);
     const RawproductSequences = selected.map(product => product.sequence);
     e.preventDefault();
-
+    console.log(JSON.stringify(fixedPercentages));
     try {
-      console.log(`[${RawproductNames.join(', ')}]`);
       const response = await api.post('http://127.0.0.1:8000/processing/create/', {
         name: productName,
         raw_materials: `[${RawproductNames.join(', ')}]`,
-        weights:"[ ]",
+        fixedPercentages: JSON.stringify(fixedPercentages),
         sequences : `[${RawproductSequences.join(', ')}]`,
         raw_materials_percentage: "[ ]"
       });
@@ -199,6 +212,16 @@ const RawProductInput = () => {
                     value={sequenceInputs[rawProduct.id]}
                     onChange={event => handleSequenceChange(event, rawProduct)}
                     placeholder="Sequence"
+                    className="w-6/12 p-1 border rounded-md focus:ring focus:ring-blue-300"
+                  />
+                </td>
+                <td className="py-2 px-4">
+                  <input
+                    type="number"
+                    name={`fixedPercentage_${rawProduct.id}`}
+                    value={fixedPercentages[rawProduct.name] || ''}
+                    onChange={event => handleFixedPercentageChange(event, rawProduct)}
+                    placeholder="Fixed Percentage"
                     className="w-6/12 p-1 border rounded-md focus:ring focus:ring-blue-300"
                   />
                 </td>
