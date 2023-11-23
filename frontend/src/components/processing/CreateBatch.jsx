@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import useAxios from '../../utils/useAxios';
 import Heading from '../extras/Heading';
 
+
 const CreateNewBatch = () => {
   const api=useAxios();
   const [productName, setProductName] = useState('');
@@ -69,6 +70,8 @@ const CreateNewBatch = () => {
           className="w-3/12 border rounded py-2 px-3 mt-1 focus:outline-none focus:shadow-outline"
         />
       </div>
+
+  
       <button
         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
         onClick={fetchBatchSheet}
