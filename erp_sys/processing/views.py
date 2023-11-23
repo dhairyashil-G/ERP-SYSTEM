@@ -190,20 +190,90 @@ class CreateBatchSheetView(APIView):
                 batchsheet_content_dict[key]=rawproduct_weight
                 # ans[key] = (value * quantity) / 100
             else:
-                weights.append(value)
-                batchsheet_content_dict[key]=value
+                tbn_value_in_product=value
 
         # weights = [float(weight.replace('[', '').replace(']', '')) * quantity for weight in product.weights.split(',')]
-        raw_materials = product.raw_materials.split(',')
+        raw_materials = product.raw_materials.replace('TBN','').split(',')
         sequences = product.sequences.split(',')
-
-        ProductsSpecs_tuple = ProductsSpecs.objects.get(name=product_name)
+        expected_value_table=dict()
         expected_table_utility_dict=dict()
-            
+        
+        #initializing values to 0
+        expected_value_table['calcium']=0
+        expected_value_table['zinc']=0
+        expected_value_table['nitrogen']=0
+        expected_value_table['moly']=0
+        expected_value_table['boron']=0
+        expected_value_table['magnesium']=0
+        expected_value_table['TBN']=tbn_value_in_product
 
 
 
 
+        for key,value in batchsheet_content_dict.items():
+            if(key=='A.O.1'):
+                Rawproduct_tuple = RawProduct.objects.get(name=key)
+                expected_table_utility_dict['A.O.1']=(value*float(Rawproduct_tuple.zinc_content))/100
+                expected_value_table['zinc']+=expected_table_utility_dict['A.O.1']
+            elif(key=='A.O.2'):
+                Rawproduct_tuple = RawProduct.objects.get(name=key)
+                expected_table_utility_dict['A.O.2']=(value*float(Rawproduct_tuple.zinc_content))/100
+                expected_value_table['zinc']+=expected_table_utility_dict['A.O.2']
+            elif(key=='DISPERSANT 1'):
+                Rawproduct_tuple = RawProduct.objects.get(name=key)
+                expected_table_utility_dict['DISPERSANT 1']=(value*float(Rawproduct_tuple.nitrogen_content))/100
+                expected_value_table['nitrogen']+=expected_table_utility_dict['DISPERSANT 1']
+            elif(key=='DISPERSANT 2'):
+                Rawproduct_tuple = RawProduct.objects.get(name=key)
+                expected_table_utility_dict['DISPERSANT 2']=(value*float(Rawproduct_tuple.nitrogen_content))/100
+                expected_value_table['nitrogen']+=expected_table_utility_dict['DISPERSANT 2']    
+            elif(key=='BDISP'):
+                Rawproduct_tuple = RawProduct.objects.get(name=key)
+                expected_table_utility_dict['BDISP']=(value*float(Rawproduct_tuple.nitrogen_content))/100
+                expected_value_table['nitrogen']+=expected_table_utility_dict['BDISP']
+                expected_table_utility_dict['BDISP']=(value*float(Rawproduct_tuple.boron_content))/100
+                expected_value_table['boron']+=expected_table_utility_dict['BDISP']    
+            elif(key=='HDISP'):
+                Rawproduct_tuple = RawProduct.objects.get(name=key)
+                expected_table_utility_dict['HDISP']=(value*float(Rawproduct_tuple.nitrogen_content))/100
+                expected_value_table['nitrogen']+=expected_table_utility_dict['HDISP']    
+            elif(key=='MODTC'):
+                Rawproduct_tuple = RawProduct.objects.get(name=key)
+                expected_table_utility_dict['MODTC']=(value*float(Rawproduct_tuple.moly_content))/100
+                expected_value_table['moly']+=expected_table_utility_dict['MODTC'] 
+            elif(key=='MODTP'):
+                Rawproduct_tuple = RawProduct.objects.get(name=key)
+                expected_table_utility_dict['MODTP']=(value*float(Rawproduct_tuple.moly_content))/100
+                expected_value_table['moly']+=expected_table_utility_dict['MODTP']   
+            elif(key=='C300'):
+                Rawproduct_tuple = RawProduct.objects.get(name=key)
+                expected_table_utility_dict['C300']=(value*float(Rawproduct_tuple.calcium_content))/100
+                expected_value_table['calcium']+=expected_table_utility_dict['C300'] 
+            elif(key=='C400'):
+                Rawproduct_tuple = RawProduct.objects.get(name=key)
+                expected_table_utility_dict['C400']=(value*float(Rawproduct_tuple.calcium_content))/100
+                expected_value_table['calcium']+=expected_table_utility_dict['C400']  
+            elif(key=='CS265'):
+                Rawproduct_tuple = RawProduct.objects.get(name=key)
+                expected_table_utility_dict['CS265']=(value*float(Rawproduct_tuple.calcium_content))/100
+                expected_value_table['calcium']+=expected_table_utility_dict['CS265']
+            elif(key=='PH250'):
+                Rawproduct_tuple = RawProduct.objects.get(name=key)
+                expected_table_utility_dict['PH250']=(value*float(Rawproduct_tuple.calcium_content))/100
+                expected_value_table['calcium']+=expected_table_utility_dict['PH250']       
+            elif(key=='M400'):
+                Rawproduct_tuple = RawProduct.objects.get(name=key)
+                expected_table_utility_dict['M400']=(value*float(Rawproduct_tuple.magnesium_content))/100
+                expected_value_table['magnesium']+=expected_table_utility_dict['M400']    
+
+        print(expected_value_table)         
+
+        expectedtablenames=[]
+        expectedtablevalues=[]
+
+        for key,value in expected_value_table.items():
+            expectedtablenames.append(key)
+            expectedtablevalues.append(round(value,4))
 
         # Create the response data
         batch_sheet_data = {
@@ -211,7 +281,9 @@ class CreateBatchSheetView(APIView):
             "quantity": quantity,
             "raw_materials": raw_materials,
             "weights": weights,
-            "sequences": sequences
+            "sequences": sequences,
+            "expected_table_name": expectedtablenames,
+            "expected_table_values": expectedtablevalues
         }
 
         if(pdf):

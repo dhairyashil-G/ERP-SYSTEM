@@ -8,7 +8,9 @@ const CreateNewBatch = () => {
   const [productName, setProductName] = useState('');
   const [quantity, setQuantity] = useState('');
   const [batchSheetData, setBatchSheetData] = useState(null);
-
+  const [expectedValuesNames,setExpectedValues] = useState([]);
+  const [expectedValues,setExpectedValuesData] = useState([]);
+  
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     
@@ -23,7 +25,8 @@ const CreateNewBatch = () => {
     try {
       const response = await api.post('http://127.0.0.1:8000/processing/batch-sheet/create/', {
         product_name: productName,quantity: parseInt(quantity,10), pdf: false});
-      setBatchSheetData(response.data);
+        console.log(response.data)
+        setBatchSheetData(response.data);
     } catch (error) {
       console.error('Error fetching batch sheet:', error);
     }
