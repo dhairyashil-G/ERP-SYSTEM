@@ -35,6 +35,7 @@ class UpdateProductSpecsView(generics.CreateAPIView):
 class UpdateProductTableView(APIView):
     def post(self,request):
         c300=request.data.get('C300_content')
+        hdisp=float(request.data.get('HDISP_content'))
         print('C300 ka percentage itna hai -> ',c300)
         products=list(Products.objects.values_list('name', flat=True))
         for product_name in products:
@@ -74,6 +75,22 @@ class UpdateProductTableView(APIView):
                 ans['DISPERSANT 2']=float((ProductsSpecs_tuple.nitrogen_content/RawProduct_tuple.nitrogen_content)*100)
                 ans['TBN']=ans['TBN']+(float(RawProduct_tuple.TBN_content)*ans['DISPERSANT 2'])
                 print("---------",ans['TBN'])
+            
+            RawProduct_tuple_hdisp = RawProduct.objects.get(name='HDISP')
+            RawProduct_tuple_ldisp= RawProduct.objects.get(name='LDISP')
+            Avgdisp_nitrogen=((hdisp*float(RawProduct_tuple_hdisp.nitrogen_content))+((100-hdisp)*float(RawProduct_tuple_ldisp.nitrogen_content)))/100
+            Avgdisp=(float(ProductsSpecs_tuple.nitrogen_content)*100)/Avgdisp_nitrogen
+
+            if('LDISP' in raw_materials):
+                ans['LDISP']=(100-hdisp)*Avgdisp/100
+                ans['TBN']+=ans['LDISP']*float(RawProduct_tuple_ldisp.TBN_content)
+        
+            if('HDISP' in raw_materials):
+                ans['HDISP']=hdisp*Avgdisp/100
+                ans['TBN']+=ans['HDISP']*float(RawProduct_tuple_hdisp.TBN_content)
+
+            # If found error check division by 100------------------------------------------------- 
+
             if('MODTC' in raw_materials):
                 RawProduct_tuple = RawProduct.objects.get(name='MODTC')
                 ans['MODTC']=float((ProductsSpecs_tuple.moly_content/RawProduct_tuple.moly_content)*100)
@@ -175,6 +192,7 @@ class CreateBatchSheetView(APIView):
         product_name = request.data.get('product_name')
         quantity = request.data.get('quantity')
         pdf=request.data.get('pdf')
+        
         product = Products.objects.get(name=product_name)
         raw_materials_percentage = product.raw_materials_percentage
         ans=eval(raw_materials_percentage)

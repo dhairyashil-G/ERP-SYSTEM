@@ -8,8 +8,6 @@ const CreateNewBatch = () => {
   const [productName, setProductName] = useState('');
   const [quantity, setQuantity] = useState('');
   const [batchSheetData, setBatchSheetData] = useState(null);
-  const [expectedValuesNames,setExpectedValues] = useState([]);
-  const [expectedValues,setExpectedValuesData] = useState([]);
   
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -100,6 +98,8 @@ const CreateNewBatch = () => {
           >
             Download PDF
           </button>
+
+          
         </div>
       )}
     </div>
