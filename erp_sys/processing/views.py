@@ -76,19 +76,38 @@ class UpdateProductTableView(APIView):
                 ans['TBN']=ans['TBN']+(float(RawProduct_tuple.TBN_content)*ans['DISPERSANT 2'])
                 print("---------",ans['TBN'])
             
-            RawProduct_tuple_hdisp = RawProduct.objects.get(name='HDISP')
-            RawProduct_tuple_ldisp= RawProduct.objects.get(name='LDISP')
-            Avgdisp_nitrogen=((hdisp*float(RawProduct_tuple_hdisp.nitrogen_content))+((100-hdisp)*float(RawProduct_tuple_ldisp.nitrogen_content)))/100
-            Avgdisp=(float(ProductsSpecs_tuple.nitrogen_content)*100)/Avgdisp_nitrogen
+            
+            if('BDISP' in raw_materials):
+                RawProduct_tuple_hdisp = RawProduct.objects.get(name='HDISP')
+                RawProduct_tuple_ldisp= RawProduct.objects.get(name='LDISP')
+                RawProduct_tuple_bdisp= RawProduct.objects.get(name='BDISP')
+                Avgdisp_nitrogen=((hdisp*float(RawProduct_tuple_hdisp.nitrogen_content))+((100-hdisp)*float(RawProduct_tuple_ldisp.nitrogen_content)))/100
+                ans['BDISP']=(float(ProductsSpecs_tuple.boron_content)*100)/float(RawProduct_tuple_bdisp.boron_content)
+                ans['TBN']+=ans['BDISP']*float(RawProduct_tuple_bdisp.TBN_content)
+                Avgdisp=((float(ProductsSpecs_tuple.nitrogen_content)-(float(RawProduct_tuple_bdisp.nitrogen_content)*ans['BDISP']/100)) *100)/Avgdisp_nitrogen
 
-            if('LDISP' in raw_materials):
-                ans['LDISP']=(100-hdisp)*Avgdisp/100
-                ans['TBN']+=ans['LDISP']*float(RawProduct_tuple_ldisp.TBN_content)
-        
-            if('HDISP' in raw_materials):
-                ans['HDISP']=hdisp*Avgdisp/100
-                ans['TBN']+=ans['HDISP']*float(RawProduct_tuple_hdisp.TBN_content)
+                if('LDISP' in raw_materials):
+                    ans['LDISP']=(100-hdisp)*Avgdisp/100
+                    ans['TBN']+=ans['LDISP']*float(RawProduct_tuple_ldisp.TBN_content)
+            
+                if('HDISP' in raw_materials):
+                    ans['HDISP']=hdisp*Avgdisp/100
+                    ans['TBN']+=ans['HDISP']*float(RawProduct_tuple_hdisp.TBN_content)
+            
+            else:
+                RawProduct_tuple_hdisp = RawProduct.objects.get(name='HDISP')
+                RawProduct_tuple_ldisp= RawProduct.objects.get(name='LDISP')
+                Avgdisp_nitrogen=((hdisp*float(RawProduct_tuple_hdisp.nitrogen_content))+((100-hdisp)*float(RawProduct_tuple_ldisp.nitrogen_content)))/100
+                Avgdisp=(float(ProductsSpecs_tuple.nitrogen_content)*100)/Avgdisp_nitrogen
 
+                if('LDISP' in raw_materials):
+                    ans['LDISP']=(100-hdisp)*Avgdisp/100
+                    ans['TBN']+=ans['LDISP']*float(RawProduct_tuple_ldisp.TBN_content)
+            
+                if('HDISP' in raw_materials):
+                    ans['HDISP']=hdisp*Avgdisp/100
+                    ans['TBN']+=ans['HDISP']*float(RawProduct_tuple_hdisp.TBN_content)
+            
             # If found error check division by 100------------------------------------------------- 
 
             if('MODTC' in raw_materials):
@@ -192,7 +211,7 @@ class CreateBatchSheetView(APIView):
         product_name = request.data.get('product_name')
         quantity = request.data.get('quantity')
         pdf=request.data.get('pdf')
-        
+
         product = Products.objects.get(name=product_name)
         raw_materials_percentage = product.raw_materials_percentage
         ans=eval(raw_materials_percentage)
