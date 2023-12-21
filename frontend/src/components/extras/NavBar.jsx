@@ -6,6 +6,11 @@ const Navbar = () => {
   const [navbar, setNavbar] = useState(false);
   const { user, logoutUser } = useContext(AuthContext);
   const navigate = useNavigate();
+  const [isOpen, setIsOpen] = useState(false);
+
+  const toggleDropdown = () => {
+    setIsOpen(!isOpen);
+  };
   return (
     <nav className="bg-gray-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -20,17 +25,21 @@ const Navbar = () => {
             <div className="ml-10 flex items-baseline space-x-4">
               <Link to="/home">
                 <a
-                  href="#"
                   className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
                   >
                   Home
                 </a>
               </Link>
               <div className="relative group">
-                <button className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
+                <button
+                  className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                  onClick={toggleDropdown}
+                >
                   Departments
                 </button>
-                <ul className="absolute hidden text-gray-300 bg-gray-700 rounded-md mt-2 space-y-2 group-hover:block">
+                <ul
+                  className={`absolute ${isOpen ? 'block' : 'hidden'} text-gray-300 bg-gray-700 rounded-md mt-2 space-y-2`}
+                >
                   <li>
                     <Link to="/rawproducts" className="block px-4 py-2 hover:bg-gray-600">
                       Raw Products

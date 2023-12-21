@@ -5,8 +5,7 @@ import Heading from '../extras/Heading';
 
 const EditableTable = () => {
   const [rawProducts, setRawProducts] = useState([]);
-  const [c300, setC300]=useState('');
-  const [hdisp,setHDISP]=useState('');
+
   const api=useAxios();
   useEffect(() => {
     fetchRawProducts();
@@ -32,7 +31,7 @@ const EditableTable = () => {
 
   const updateproducttable = async () => {
     try {
-      const response = await api.post('http://127.0.0.1:8000/processing/updateproducttable',{'C300_content':c300,'HDISP_content':hdisp}); // Refresh the data after update
+      const response = await api.post('http://127.0.0.1:8000/processing/updateproducttable',{'C300_content':0,'HDISP_content':0}); // Refresh the data after update
     } catch (error) {
       console.error('Error updating raw product:', error);
     }
@@ -46,15 +45,7 @@ const EditableTable = () => {
     setRawProducts(updatedRawProducts);
   };
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;   
-    if (name === 'c300'){
-        setC300(value);
-      }
-    if(name === 'hdisp'){
-        setHDISP(value);
-    }
-  };
+
 
   return (
     <>
@@ -206,28 +197,6 @@ const EditableTable = () => {
         </tbody>
       </table>
     </div>
-
-    <div className="mb-4">
-        <label className="block font-medium text-gray-700">C300 Content (%)</label>
-        <input
-          type="number"
-          name="c300"
-          value={c300}
-          onChange={handleInputChange}
-          className="w-3/12 border rounded py-2 px-3 mt-1 focus:outline-none focus:shadow-outline"
-        />
-      </div>
-
-      <div className="mb-4">
-        <label className="block font-medium text-gray-700">HDISP Content (%)</label>
-        <input
-          type="number"
-          name="hdisp"
-          value={hdisp}
-          onChange={handleInputChange}
-          className="w-3/12 border rounded py-2 px-3 mt-1 focus:outline-none focus:shadow-outline"
-        />
-      </div>
 
     <div className='mx-auto text-center'>
       <button onClick={updateproducttable}
