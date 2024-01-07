@@ -34,10 +34,10 @@ export default function ProductList(){
             Header: "Raw Materials",
             accessor: "raw_materials",
           },
-          {
-            Header: "Weights",
-            accessor: "weights",
-          },
+          // {
+          //   Header: "Weights",
+          //   accessor: "weights",
+          // },
           {
             Header: "Sequence",
             accessor: "sequences",

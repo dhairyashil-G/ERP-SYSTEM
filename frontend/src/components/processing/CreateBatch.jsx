@@ -145,7 +145,7 @@ const CreateNewBatch = () => {
               <thead>
                 <tr className="bg-gray-200">
                   <th className="border border-gray-800 py-2 px-4">Raw Material</th>
-                  <th className="border border-gray-800 py-2 px-4">Sequence</th>
+                  {/* <th className="border border-gray-800 py-2 px-4">Sequence</th> */}
                   <th className="border border-gray-800 py-2 px-4">Weight</th>
                 </tr>
               </thead>
@@ -154,7 +154,7 @@ const CreateNewBatch = () => {
                   <tr key={index} className={index % 2 === 0 ? 'bg-gray-100' : 'bg-white'}>
                 
                     <td className="border border-gray-800 py-2 px-4">{rawMaterial.replace(/\[|\]/g, '')}</td>
-                    <td className="border border-gray-800 py-2 px-4">{batchSheetData.sequences[index].replace(/\[|\]/g, '')}</td>
+                    {/* <td className="border border-gray-800 py-2 px-4">{batchSheetData.sequences[index].replace(/\[|\]/g, '')}</td> */}
                     <td className="border border-gray-800 py-2 px-4">{batchSheetData.weights[index]}</td>
                   </tr>
                 ))}
