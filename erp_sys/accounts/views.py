@@ -99,11 +99,7 @@ def getRoutes(request):
         "/change-password",
         "/password-reset",
         "/password-reset-confirm/<int:pk>/<str:token>/",
-        "/register",
-        "/profile",
-        "/profile/update",
-        "/profile/delete",
-        "/vendor/list",
+        "/signup",
     ]
 
     return Response(routes)

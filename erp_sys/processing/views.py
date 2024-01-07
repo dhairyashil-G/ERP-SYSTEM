@@ -5,11 +5,13 @@ from .serializer import ProductsSerializer,SalesSerializer,ProductSpecsSerialize
 from .models import Products,ProductsSpecs,Sales
 from RawProducts.models import RawProduct
 from rest_framework.views import APIView
+from rest_framework.decorators import api_view, permission_classes
 from fpdf import FPDF
 from io import BytesIO
 from django.http import HttpResponse
 from decimal import Decimal
 from accounts.permissions import IsAdmin,IsSalesTeam
+from rest_framework.permissions import AllowAny
 
 
 class ProductCreateView(generics.CreateAPIView):
@@ -375,3 +377,18 @@ class SalesListView(generics.ListAPIView):
     permission_classes = [IsAdmin | IsSalesTeam]
     queryset = Sales.objects.all()
     serializer_class = SalesSerializer
+
+@api_view(["GET"])
+@permission_classes([AllowAny])
+def getRoutes(request):
+    routes = [
+        'create/', 
+        'list/', 
+        "delete/<int:pk>/", 
+        'batch-sheet/create/', 
+        'updateproducttable',
+        'salestable',
+        'updateproductspecs',
+    ]
+
+    return Response(routes)
