@@ -1,0 +1,4 @@
+# Ignore compiled Python files
+/processing/__pycache__
+erp_sys/__pycache__
+accounts/__pycache__

@@ -4,6 +4,7 @@ from . import views
 
 
 urlpatterns = [
+     path("", views.getRoutes, name="processing_routes"),
      path('create/', views.ProductCreateView.as_view(), name='product-create'),
      path('list/', views.ProductListView.as_view(), name='raw-product-list'),
      path("delete/<int:pk>/", views.ProductDeleteView.as_view(), name="delete"),

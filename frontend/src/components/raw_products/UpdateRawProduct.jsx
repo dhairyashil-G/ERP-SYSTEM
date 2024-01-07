@@ -5,6 +5,7 @@ import Heading from '../extras/Heading';
 
 const EditableTable = () => {
   const [rawProducts, setRawProducts] = useState([]);
+
   const api=useAxios();
   useEffect(() => {
     fetchRawProducts();
@@ -30,7 +31,7 @@ const EditableTable = () => {
 
   const updateproducttable = async () => {
     try {
-      const response = await api.get('http://127.0.0.1:8000/processing/updateproducttable'); // Refresh the data after update
+      const response = await api.post('http://127.0.0.1:8000/processing/updateproducttable',{'C300_content':0,'HDISP_content':0}); // Refresh the data after update
     } catch (error) {
       console.error('Error updating raw product:', error);
     }
@@ -43,6 +44,8 @@ const EditableTable = () => {
     console.log(updatedRawProducts)
     setRawProducts(updatedRawProducts);
   };
+
+
 
   return (
     <>
@@ -194,6 +197,7 @@ const EditableTable = () => {
         </tbody>
       </table>
     </div>
+
     <div className='mx-auto text-center'>
       <button onClick={updateproducttable}
         className="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600"
