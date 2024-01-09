@@ -21,6 +21,7 @@ from . import views
 
 urlpatterns = [
     # path('add_rawproducts/',views.RawProductViewSet.as_view(),name="add_rawproduct_data"),
+     path("", views.getRoutes, name="processing_routes"),
      path('create/', views.RawProductCreateView.as_view(), name='raw-product-create'),
      path('list/', views.RawProductListView.as_view(), name='raw-product-list'),
      path("update/<int:pk>/", views.RawProductUpdateView.as_view(), name="update"),
