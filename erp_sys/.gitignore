@@ -1,4 +1,4 @@
 # Ignore compiled Python files
-__pycache__
-migrations
+__pycache__/
+migrationss
 db.sqlite3
